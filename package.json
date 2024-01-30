@@ -1,0 +1,35 @@
+{
+  "name": "promptfusion",
+  "version": "1.0.0",
+  "description": "A CLI tool to concatenate text files with headers for GPT prompt engineering.",
+  "type": "module",
+  "main": "promptFusion.js",
+  "bin": {
+    "promptfusion": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "uvu test"
+  },
+  "keywords": [
+    "text",
+    "concatenate",
+    "CLI",
+    "GPT",
+    "prompt-engineering",
+    "token-count"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "clipboardy": "^4.0.0",
+    "globby": "^13.x.x",
+    "gpt-tokenizer": "^2.1.2",
+    "tiktoken": "^1.0.0",
+    "unicorn-magic": "^0.1.0"
+  },
+  "preferGlobal": true,
+  "devDependencies": {
+    "esbuild": "^0.20.0",
+    "uvu": "^0.5.6"
+  }
+}
