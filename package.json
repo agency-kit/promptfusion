@@ -5,7 +5,8 @@
   "type": "module",
   "main": "promptFusion.js",
   "bin": {
-    "promptfusion": "./src/cli.js"
+    "promptfusion": "./src/cli.js",
+    "promptf": "./src/cli.js"
   },
   "scripts": {
     "test": "uvu test"

@@ -6,20 +6,32 @@ import { encode, isWithinTokenLimit } from 'gpt-tokenizer';
 import * as globby from 'globby';
 import clipboardy from 'clipboardy';
 
+// List of common media file extensions to ignore
+const MEDIA_FILE_EXTENSIONS = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.mp4', '.mp3', '.avi', '.mov', '.wmv', '.flac', '.wav'];
+const SKIP_FILES = ['package-lock.json', '.gitignore'];
 
-async function processFile(filePath) {
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const relativeFilePath = path.relative(process.cwd(), filePath);
-  const fileHeader = `Title: ${path.basename(filePath)}\nPath: ${relativeFilePath}\n\n`;
-  const contentWithHeader = fileHeader + fileContent + '\n\n';
 
-  return contentWithHeader;
+function shouldSkipFile(filePath) {
+  const extension = path.extname(filePath).toLowerCase();
+  const basename = path.basename(filePath);
+  return MEDIA_FILE_EXTENSIONS.includes(extension) || SKIP_FILES.includes(basename);
 }
 
-//TODO: ignore common image formats
-//TODO: add ability to filter files
+async function processFile(filePath) {
+  console.log('[promptfusion]:', filePath);
+  const relativeFilePath = path.relative(process.cwd(), filePath);
+  const fileHeader = `Title: ${path.basename(filePath)}\nPath: ${relativeFilePath}\n\n`;
+
+  if (shouldSkipFile(filePath)) {
+    return fileHeader; // Return only the header for media files
+  } else {
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    return fileHeader + fileContent + '\n\n';
+  }
+}
+
 export async function concatenateFiles(inputDir, outputFile = null) {
-  const filePaths = await globby.globby(['**/*'], { cwd: inputDir, gitignore: true, onlyFiles: true });
+  const filePaths = await globby.globby(['**/*', '!**/.git/**'], { cwd: inputDir, gitignore: true, onlyFiles: true, dot: true });
   let combinedContent = '';
 
   for (const filePath of filePaths) {

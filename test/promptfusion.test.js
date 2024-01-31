@@ -10,8 +10,8 @@ function createSampleFile(filePath, content) {
 }
 
 test('Concatenate Files and Verify Content', () => {
-  const testDir = path.join(process.cwd(), 'tests', 'test-files');
-  const outputFile = path.join(process.cwd(), 'promptfusion-result.txt');
+  const testDir = path.join('./', 'tests', 'test-files');
+  const outputFile = './promptfusion-result.txt';
 
   // Ensure test directory exists
   if (!fs.existsSync(testDir)) {
