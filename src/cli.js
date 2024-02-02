@@ -2,12 +2,12 @@
 
 import { concatenateFiles } from "./promptfusion.js";
 
-const defaultInputDir = process.cwd();
 const args = process.argv.slice(2);
-const directoryPath = args[0] || defaultInputDir;
-const outputPath = args[1] || null;
+const directoryPath = args.find(arg => !arg.startsWith('--')) || process.cwd();
+const outputPath = args.includes('--output') ? args[args.indexOf('--output') + 1] : null;
+const shouldMap = args.includes('--map');
 
 console.log('running promptfusion...');
 
-concatenateFiles(directoryPath, outputPath)
+concatenateFiles(directoryPath, outputPath, shouldMap)
   .catch(err => console.error(err));

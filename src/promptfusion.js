@@ -2,13 +2,14 @@
 
 import fs from 'fs';
 import path from 'path';
-import { encode, isWithinTokenLimit } from 'gpt-tokenizer';
+import { isWithinTokenLimit } from 'gpt-tokenizer';
 import * as globby from 'globby';
 import clipboardy from 'clipboardy';
+import prettyFileTree from 'pretty-file-tree';
 
 // List of common media file extensions to ignore
 const MEDIA_FILE_EXTENSIONS = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.mp4', '.mp3', '.avi', '.mov', '.wmv', '.flac', '.wav'];
-const SKIP_FILES = ['package-lock.json', '.gitignore'];
+const SKIP_FILES = ['yarn.lock', 'package-lock.json', '.gitignore'];
 
 
 function shouldSkipFile(filePath) {
@@ -30,9 +31,15 @@ async function processFile(filePath) {
   }
 }
 
-export async function concatenateFiles(inputDir, outputFile = null) {
+export async function concatenateFiles(inputDir, outputFile = null, mapOnly = false) {
+  const dirMap = await generateDirectoryMap(inputDir);
+  if (mapOnly) {
+    console.log("Directory map generated.");
+    clipboardy.writeSync(dirMap);
+    return;
+  }
   const filePaths = await globby.globby(['**/*', '!**/.git/**'], { cwd: inputDir, gitignore: true, onlyFiles: true, dot: true });
-  let combinedContent = '';
+  let combinedContent = dirMap + '\n\n';
 
   for (const filePath of filePaths) {
     const fullFilePath = path.join(inputDir, filePath);
@@ -58,4 +65,16 @@ export async function concatenateFiles(inputDir, outputFile = null) {
       console.error("Failed to copy content to the clipboard. Error:", error);
     }
   }
+}
+
+export async function generateDirectoryMap(dirPath) {
+  const paths = await globby.globby(['**', '!**/.git/**', '!node_modules/**'], {
+    cwd: dirPath,
+    gitignore: true,
+    onlyDirectories: false,
+    onlyFiles: false,
+    dot: true,
+  });
+
+  return prettyFileTree(paths);
 }
