@@ -12,6 +12,10 @@
     "build:test": "rimraf test && tsup-node src/promptfusion.test.ts --format esm --outDir test",
     "test": "npm run build:test && uvu test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agency-kit/promptfusion.git"
+  },
   "keywords": [
     "text",
     "concatenate",
