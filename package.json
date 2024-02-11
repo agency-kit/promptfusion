@@ -57,18 +57,17 @@
   "author": "Jacob Milhorn",
   "license": "MIT",
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
     "clipboardy": "^4.0.0",
     "globby": "^13.x.x",
     "gpt-tokenizer": "^2.1.2",
     "pretty-file-tree": "^1.0.1",
-    "rimraf": "^5.0.5",
-    "tiktoken": "^1.0.0",
-    "tsup": "^8.0.2",
     "unicorn-magic": "^0.1.0"
   },
   "preferGlobal": true,
   "devDependencies": {
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.2",
+    "@changesets/cli": "^2.27.1",
     "@types/globby": "^9.1.0",
     "@types/node": "^20.11.17",
     "esbuild": "^0.20.0",
