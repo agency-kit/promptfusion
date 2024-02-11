@@ -1,15 +1,16 @@
 {
   "name": "promptfusion",
-  "version": "1.0.0",
-  "description": "A CLI tool to concatenate text files with headers for GPT prompt engineering.",
+  "version": "1.0.1",
+  "description": "A CLI tool to concatenate all text files in your CWD with headers for GPT prompt engineering.",
   "type": "module",
   "main": "promptFusion.js",
   "bin": {
-    "promptfusion": "./src/cli.js",
-    "promptf": "./src/cli.js"
+    "promptf": "./dist/cli.js"
   },
   "scripts": {
-    "test": "uvu test"
+    "build": "rimraf dist && tsup src/cli.ts --format esm",
+    "build:test": "rimraf test && tsup-node src/promptfusion.test.ts --format esm --outDir test",
+    "test": "npm run build:test && uvu test"
   },
   "keywords": [
     "text",
@@ -22,16 +23,22 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
+    "@changesets/cli": "^2.27.1",
     "clipboardy": "^4.0.0",
     "globby": "^13.x.x",
     "gpt-tokenizer": "^2.1.2",
     "pretty-file-tree": "^1.0.1",
+    "rimraf": "^5.0.5",
     "tiktoken": "^1.0.0",
+    "tsup": "^8.0.2",
     "unicorn-magic": "^0.1.0"
   },
   "preferGlobal": true,
   "devDependencies": {
+    "@types/globby": "^9.1.0",
+    "@types/node": "^20.11.17",
     "esbuild": "^0.20.0",
+    "typescript": "^5.3.3",
     "uvu": "^0.5.6"
   }
 }
