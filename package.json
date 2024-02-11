@@ -1,6 +1,6 @@
 {
   "name": "promptfusion",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI tool to concatenate all text files in your CWD with headers for GPT prompt engineering.",
   "type": "module",
   "main": "promptFusion.js",
